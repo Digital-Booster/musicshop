@@ -65,6 +65,8 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>Track</th>
+                                                <th>Album</th>
+                                                <th>Artist</th>
                                                 <th class="text-center">Quantity</th>
                                                 <th class="text-end">Unit Price</th>
                                                 <th class="text-end">Total</th>
@@ -75,6 +77,14 @@
                                                 <td>
                                                     <i class="bi bi-music-note me-2"></i>
                                                     <span th:text="${item.track != null ? item.track.name : 'Unknown'}">Track Name</span>
+                                                </td>
+                                                <td>
+                                                    <i class="bi bi-disc me-2"></i>
+                                                    <span th:text="${item.track != null && item.track.album != null ? item.track.album.title : 'Unknown'}">Album Title</span>
+                                                </td>
+                                                <td>
+                                                    <i class="bi bi-person me-2"></i>
+                                                    <span th:text="${item.track != null && item.track.album != null && item.track.album.artist != null ? item.track.album.artist.name : 'Unknown'}">Artist Name</span>
                                                 </td>
                                                 <td class="text-center" th:text="${item.quantity}">1</td>
                                                 <td class="text-end" th:text="'$' + ${item.unitPrice}">0.00</td>
