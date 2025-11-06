@@ -20,6 +20,8 @@ public class SecurityConfig {
                 .requestMatchers("/login", "/register", "/css/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
+                .exceptionHandling(exceptions -> exceptions
+                    .accessDeniedPage("/"))
             .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true)
@@ -28,7 +30,6 @@ public class SecurityConfig {
                 .logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
-                // .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
                 .permitAll());
         return http.build();
