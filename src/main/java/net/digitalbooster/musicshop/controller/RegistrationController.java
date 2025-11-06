@@ -91,7 +91,7 @@ public class RegistrationController {
             AppUser user = new AppUser();
             user.setUsername(email);
             user.setPassword(passwordEncoder.encode(password));
-            user.setRole((role == null || role.isBlank()) ? "CUSTOMER" : role);
+            user.setRole((role == null || role.isBlank()) ? "USER" : role);
             user.setCustomer(customer);
 
             appUserRepository.save(user);
