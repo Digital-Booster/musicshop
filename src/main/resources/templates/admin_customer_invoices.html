@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Customer Invoices - Music Shop</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}" />
+    </head>
+<body>
+<div class="container large">
+    <div th:replace="fragments/menu :: menu"></div>
+    <h2>Invoices for <span th:text="${customer.firstName} + ' ' + ${customer.lastName}">Customer</span></h2>
+
+    <div th:if="${error}" style="color:#b00020;">[[${error}]]</div>
+
+    <div>
+        <strong>Total for customer:</strong>
+        <span th:text="${total}">0.00</span>
+    </div>
+
+    <div th:if="${invoices != null and #lists.isEmpty(invoices) == false}">
+        <ul>
+            <li th:each="inv : ${invoices}">
+                <details>
+                    <summary>
+                        Invoice <span th:text="${inv.invoiceId}">#</span>
+                        - <span th:text="${inv.invoiceDate}"></span>
+                        - Total: <span th:text="${inv.total}"></span>
+                    </summary>
+
+                    <div>
+                        <table>
+                            <thead>
+                                <tr><th>Track</th><th>Quantity</th><th>Unit Price</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${inv.invoiceItems}">
+                                    <td th:text="${item.track != null ? item.track.name : 'Unknown'}">Track Name</td>
+                                    <td th:text="${item.quantity}">1</td>
+                                    <td th:text="${item.unitPrice}">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+            </li>
+        </ul>
+    </div>
+
+    <div th:if="${invoices == null || #lists.isEmpty(invoices)}">
+        <p>No invoices found for this customer.</p>
+    </div>
+
+    <div style="margin-top:12px;"><a th:href="@{/admin/users}">Back to users</a></div>
+</div>
+</body>
+</html>

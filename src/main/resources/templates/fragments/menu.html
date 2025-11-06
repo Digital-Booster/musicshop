@@ -1,20 +1,11 @@
 <!DOCTYPE html>
 <!-- Shared navigation fragment -->
 <div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:fragment="menu">
-    <style>
-        .topnav { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:16px; }
-        .menu { display:flex; gap:10px; list-style:none; padding:0; margin:0; }
-        .menu li a { text-decoration:none; padding:8px 12px; display:block; color:#333; border-radius:4px; }
-        .menu li a:hover { background:#f0f0f0; }
-        .username { font-size:0.9rem; color:#555; margin-right:8px; }
-        @media (max-width:600px) {
-            .menu { flex-wrap:wrap; }
-        }
-    </style>
+    <!-- styles moved to /static/css/site.css -->
 
     <div class="topnav">
         <div>
-            <strong>Music Shop</strong>
+            <H1>Music Shop</H1>
         </div>
 
         <div style="display:flex; align-items:center; gap:12px;">
@@ -23,7 +14,7 @@
                 <li sec:authorize="hasRole('USER')"><a th:href="@{/profile}">Profile</a></li>
                 <li sec:authorize="hasRole('USER')"><a th:href="@{/invoices}">Invoices</a></li>
                 <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/users}">Users</a></li>
-                <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/invoices}">Invoices</a></li>
+                <!-- <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/invoices}">Invoices</a></li> -->
                 <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
                 <li sec:authorize="!isAuthenticated()"><a th:href="@{/register}">Register</a></li>
             </ul>

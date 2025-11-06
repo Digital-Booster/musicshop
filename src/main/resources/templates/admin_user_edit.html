@@ -3,17 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <title>Edit User - Music Shop</title>
-    <style>
-        body { font-family: Arial, Helvetica, sans-serif; background:#f6f6f6; }
-        .container { width: 600px; margin:40px auto; background: #fff; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
-        label { display:block; margin-top:10px; }
-        input[type=text] { width:100%; padding:8px; margin-top:4px; box-sizing:border-box; }
-        button { margin-top:16px; padding:8px 12px; }
-        .danger { background:#ffebee; color:#b00020; padding:8px; border-radius:4px; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/site.css}" />
     </head>
 <body>
-<div class="container">
+<div class="container edit">
     <div th:replace="fragments/menu :: menu"></div>
     <h2>Edit User</h2>
 

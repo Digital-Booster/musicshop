@@ -78,6 +78,45 @@ public class ProfileController {
         if (c == null) {
             c = new Customer();
         }
+        // Validate email uniqueness: allow current value but prevent using someone else's email
+        Customer existingCustomer = customerRepository.findByEmail(email);
+        if (existingCustomer != null) {
+            Integer existingId = existingCustomer.getCustomerId();
+            Integer currentId = c.getCustomerId();
+            if (currentId == null || !existingId.equals(currentId)) {
+                model.addAttribute("error", "Email is already used by another account.");
+                // preserve submitted values
+                model.addAttribute("firstName", firstName);
+                model.addAttribute("lastName", lastName);
+                model.addAttribute("email", email);
+                model.addAttribute("company", company);
+                model.addAttribute("address", address);
+                model.addAttribute("city", city);
+                model.addAttribute("state", state);
+                model.addAttribute("country", country);
+                model.addAttribute("postalCode", postalCode);
+                model.addAttribute("phone", phone);
+                model.addAttribute("fax", fax);
+                return "profile";
+            }
+        }
+        // Also ensure AppUser username uniqueness
+        AppUser otherUser = appUserRepository.findByUsername(email);
+        if (otherUser != null && !otherUser.getUserId().equals(user.getUserId())) {
+            model.addAttribute("error", "Username (email) is already used by another account.");
+            model.addAttribute("firstName", firstName);
+            model.addAttribute("lastName", lastName);
+            model.addAttribute("email", email);
+            model.addAttribute("company", company);
+            model.addAttribute("address", address);
+            model.addAttribute("city", city);
+            model.addAttribute("state", state);
+            model.addAttribute("country", country);
+            model.addAttribute("postalCode", postalCode);
+            model.addAttribute("phone", phone);
+            model.addAttribute("fax", fax);
+            return "profile";
+        }
         c.setFirstName(firstName);
         c.setLastName(lastName);
         c.setEmail(email);
@@ -91,11 +130,12 @@ public class ProfileController {
         c.setFax(fax);
 
         customerRepository.save(c);
-        // ensure relation
-        if (user.getCustomer() == null) {
-            user.setCustomer(c);
-            appUserRepository.save(user);
+        // ensure relation and update username if email changed
+        user.setCustomer(c);
+        if (!email.equals(user.getUsername())) {
+            user.setUsername(email);
         }
+        appUserRepository.save(user);
 
         redirectAttributes.addFlashAttribute("message", "Profile updated successfully.");
         return "redirect:/profile";
