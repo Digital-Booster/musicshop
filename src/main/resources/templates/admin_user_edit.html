@@ -2,70 +2,182 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit User - Music Shop</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/site.css}" />
-    </head>
-<body>
-<div class="container edit">
-    <div th:replace="fragments/menu :: menu"></div>
-    <h2>Edit User</h2>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    
+    <div class="container flex-grow-1 py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="content-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1 class="h3 mb-0">
+                            <i class="bi bi-person-gear me-2"></i>Edit User
+                        </h1>
+                        <a th:href="@{/admin/users}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Users
+                        </a>
+                    </div>
 
-    <div th:if="${error}" style="color:#b00020;">[[${error}]]</div>
-    <div th:if="${message}" style="color:#2e7d32;">[[${message}]]</div>
+                    <div th:if="${error}" class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>
+                        <div th:text="${error}"></div>
+                    </div>
+                    <div th:if="${message}" class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <div th:text="${message}"></div>
+                    </div>
 
-    <form th:action="@{/admin/users/{id}(id=${appUser.userId})}" method="post">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <form th:action="@{/admin/users/{id}(id=${appUser.userId})}" method="post" class="needs-validation" novalidate>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-        <label>Username</label>
-        <input type="text" name="username" th:value="${appUser.username}" disabled />
+                        <!-- User Account Information -->
+                        <div class="profile-section-title">Account Information</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="username" name="username" 
+                                           th:value="${appUser.username}" disabled placeholder="Username" />
+                                    <label for="username">Username</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="role" name="role" 
+                                           th:value="${appUser.role}" placeholder="Role" />
+                                    <label for="role">Role</label>
+                                </div>
+                            </div>
+                        </div>
 
-        <label>Role</label>
-        <input type="text" name="role" th:value="${appUser.role}" />
+                        <!-- Customer Information -->
+                        <div class="profile-section-title">Personal Information</div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="firstName" name="firstName"
+                                           th:value="${customer.firstName}" placeholder="First Name" />
+                                    <label for="firstName">First Name</label>
+                                    <div class="invalid-feedback">Please provide a first name.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="lastName" name="lastName"
+                                           th:value="${customer.lastName}" placeholder="Last Name" />
+                                    <label for="lastName">Last Name</label>
+                                    <div class="invalid-feedback">Please provide a last name.</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="email" name="email"
+                                           th:value="${customer.email}" placeholder="Email" />
+                                    <label for="email">Email</label>
+                                    <div class="invalid-feedback">Please provide a valid email if applicable.</div>
+                                </div>
+                            </div>
+                        </div>
 
-        <h3>Customer info</h3>
-        <label for="firstName">First name</label>
-        <input id="firstName" name="firstName" type="text" th:value="${customer.firstName}" />
+                        <!-- Company Information -->
+                        <div class="profile-section-title mt-4">Company Information</div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="company" name="company"
+                                           th:value="${customer.company}" placeholder="Company" />
+                                    <label for="company">Company</label>
+                                </div>
+                            </div>
+                        </div>
 
-        <label for="lastName">Last name</label>
-        <input id="lastName" name="lastName" type="text" th:value="${customer.lastName}" />
+                        <!-- Address Information -->
+                        <div class="profile-section-title mt-4">Address Information</div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="address" name="address"
+                                           th:value="${customer.address}" placeholder="Address" />
+                                    <label for="address">Street Address</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="city" name="city"
+                                           th:value="${customer.city}" placeholder="City" />
+                                    <label for="city">City</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="state" name="state"
+                                           th:value="${customer.state}" placeholder="State" />
+                                    <label for="state">State</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="country" name="country"
+                                           th:value="${customer.country}" placeholder="Country" />
+                                    <label for="country">Country</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="postalCode" name="postalCode"
+                                           th:value="${customer.postalCode}" placeholder="Postal Code" />
+                                    <label for="postalCode">Postal Code</label>
+                                </div>
+                            </div>
+                        </div>
 
-        <label for="email">Email</label>
-        <input id="email" name="email" type="text" th:value="${customer.email}" />
+                        <!-- Contact Information -->
+                        <div class="profile-section-title mt-4">Contact Information</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="tel" class="form-control" id="phone" name="phone"
+                                           th:value="${customer.phone}" placeholder="Phone" />
+                                    <label for="phone">Phone</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="tel" class="form-control" id="fax" name="fax"
+                                           th:value="${customer.fax}" placeholder="Fax" />
+                                    <label for="fax">Fax</label>
+                                </div>
+                            </div>
+                        </div>
 
-        <label for="company">Company</label>
-        <input id="company" name="company" type="text" th:value="${customer.company}" />
-
-        <label for="address">Address</label>
-        <input id="address" name="address" type="text" th:value="${customer.address}" />
-
-        <label for="city">City</label>
-        <input id="city" name="city" type="text" th:value="${customer.city}" />
-
-        <label for="state">State</label>
-        <input id="state" name="state" type="text" th:value="${customer.state}" />
-
-        <label for="country">Country</label>
-        <input id="country" name="country" type="text" th:value="${customer.country}" />
-
-        <label for="postalCode">Postal Code</label>
-        <input id="postalCode" name="postalCode" type="text" th:value="${customer.postalCode}" />
-
-        <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="text" th:value="${customer.phone}" />
-
-        <label for="fax">Fax</label>
-        <input id="fax" name="fax" type="text" th:value="${customer.fax}" />
-
-        <div>
-            <button type="submit">Save</button>
-            <a th:href="@{/admin/users}">Back</a>
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2"></i>Save Changes
+                            </button>
+                            <a th:href="@{/admin/users}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                             </form>
+                            <form th:action="@{/admin/users/{id}/delete(id=${appUser.userId})}" method="post" th:object="${appUser}" style="display:inline;">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">
+                                    <i class="bi bi-trash me-2"></i>Delete User
+                                </button>
+                            </form>
+                        </div>
+                   
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 
-    <form th:action="@{/admin/users/{id}/delete(id=${appUser.userId})}" method="post" style="margin-top:16px;">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <button type="submit" class="danger">Delete user</button>
-    </form>
-</div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@ public class AdminUserController {
         if (role != null && !role.isBlank()) user.setRole(role);
         appUserRepository.save(user);
         redirectAttributes.addFlashAttribute("message", "User updated");
-        return "redirect:/admin/users";
+        return "redirect:/admin/users/" + id;
     }
 
     @PostMapping("/admin/users/{id}/delete")
