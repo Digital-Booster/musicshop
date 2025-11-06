@@ -18,34 +18,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="topnav">
-        <div>
-            <strong>Music Shop</strong>
-        </div>
-        <ul class="menu">
-            <li sec:authorize="isAuthenticated()">
-                <a th:href="@{/}">Home</a>
-            </li>
-            <li sec:authorize="hasRole('USER')">
-                <a th:href="@{/profile}">Profile</a>
-            </li>
-            <li sec:authorize="hasRole('USER')">
-                <a th:href="@{/invoices}">Invoices</a>
-            </li>
-            <li sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/admin/users}">Users</a>
-            </li>
-            <li sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/invoices}">Invoices</a>
-            </li>
-            <li sec:authorize="!isAuthenticated()">
-                <a th:href="@{/login}">Login</a>
-            </li>
-            <li sec:authorize="!isAuthenticated()">
-                <a th:href="@{/register}">Register</a>
-            </li>
-        </ul>
-    </div>
+    <div th:replace="fragments/menu :: menu"></div>
     <h2>Welcome</h2>
     <p>Welcome to the Music Shop.</p>
 

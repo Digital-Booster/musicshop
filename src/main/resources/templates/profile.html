@@ -15,6 +15,7 @@
     </head>
 <body>
 <div class="container">
+    <div th:replace="fragments/menu :: menu"></div>
     <h2>Your profile</h2>
 
     <div th:if="${error}" class="error" th:text="${error}"></div>
