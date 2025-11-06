@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login - Music Shop</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; background:#f6f6f6; }
+        .container { width: 400px; margin:80px auto; background: #fff; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
+        label { display:block; margin-top:10px; }
+        input[type=text], input[type=password] { width:100%; padding:8px; margin-top:4px; box-sizing:border-box; }
+        button { margin-top:16px; padding:8px 12px; }
+        .error { color: #b00020; margin-top:10px; padding: 10px; background: #ffebee; border-radius: 4px; }
+        .success { color: #2e7d32; margin-top:10px; padding: 10px; background: #e8f5e9; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Sign in</h2>
+
+    <!-- Spring Security default login processing URL is /login (POST) -->
+    <form th:action="@{/login}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" autofocus />
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" />
+
+        <div>
+            <button type="submit">Login</button>
+        </div>
+
+        <!-- show messages -->
+        <div th:if="${param.error}" class="error">Invalid username or password.</div>
+        <div th:if="${param.logout}" class="success">You have been logged out.</div>
+        <div th:if="${message}" class="success" th:text="${message}"></div>
+    </form>
+
+    <p style="margin-top:12px;">Don't have an account? <a th:href="@{/register}">Register</a></p>
+</div>
+</body>
+</html>

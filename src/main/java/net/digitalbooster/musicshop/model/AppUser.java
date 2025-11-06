@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "app_users")
 public class AppUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UserId")
     private Integer userId;
 
@@ -19,7 +20,7 @@ public class AppUser {
     private String role;
 
     @OneToOne
-    @JoinColumn(name = "UserId", referencedColumnName = "CustomerId")
+    @JoinColumn(name = "CustomerId")
     private Customer customer;
 
     // Getters and Setters

@@ -64,7 +64,8 @@ CREATE TABLE app_users (
 	Username TEXT NOT NULL,
 	Password TEXT NOT NULL,
 	"Role" TEXT,
-	CONSTRAINT app_users_customers_FK FOREIGN KEY (UserId) REFERENCES customers(CustomerId)
+	CustomerId INTEGER,
+	CONSTRAINT app_users_customers_FK FOREIGN KEY (CustomerId) REFERENCES customers(CustomerId)
 );
 
 

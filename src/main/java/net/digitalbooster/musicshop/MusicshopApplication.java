@@ -18,7 +18,7 @@ public class MusicshopApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MusicshopApplication.class, args);
 	}
-
+/* 
 	@Bean
 	public CommandLineRunner demo(CustomerRepository repository) {
 		return (args) -> {
@@ -57,4 +57,5 @@ public class MusicshopApplication {
 		if (str == null) return "";
 		return str.length() > maxLength ? str.substring(0, maxLength - 3) + "..." : str;
 	}
+		*/
 }

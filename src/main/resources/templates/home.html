@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Home - Music Shop</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; background:#f6f6f6; }
+        .container { width: 800px; margin:40px auto; background: #fff; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Welcome</h2>
+    <p>Welcome to the Music Shop.</p>
+
+    <!-- show logged-in user name; uses servlet request remoteUser which works with container-managed auth -->
+    <p th:if="${username != null}">Logged in as: <strong th:text="${username}">user</strong></p>
+    <p th:if="${username == null}">You are not logged in. <a th:href="@{/login}">Login</a></p>
+
+    <!-- logout link: default Spring Security logout endpoint is /logout (POST). Provide form to POST logout -->
+    <form th:action="@{/logout}" method="post" th:if="${username != null}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit">Logout</button>
+    </form>
+</div>
+</body>
+</html>

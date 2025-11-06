@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Register - Music Shop</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; background:#f6f6f6; }
+        .container { width: 480px; margin:60px auto; background: #fff; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
+        label { display:block; margin-top:10px; }
+        input[type=text], input[type=password] { width:100%; padding:8px; margin-top:4px; box-sizing:border-box; }
+        button { margin-top:16px; padding:8px 12px; }
+        .error { color: #b00020; margin-top: 10px; padding: 10px; background: #ffebee; border-radius: 4px; }
+        .message { color: #2e7d32; margin-top: 10px; padding: 10px; background: #e8f5e9; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Create an account</h2>
+
+    <!-- Show error message if exists -->
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <div th:if="${message}" class="message" th:text="${message}"></div>
+
+    <!-- This form posts to /register to create Customer and AppUser -->
+    <form th:action="@{/register}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <label for="firstName">First name</label>
+        <input id="firstName" name="firstName" type="text" required th:value="${firstName}" />
+
+        <label for="lastName">Last name</label>
+        <input id="lastName" name="lastName" type="text" required th:value="${lastName}" />
+
+        <label for="email">Email (will be used as username)</label>
+        <input id="email" name="email" type="text" required th:value="${email}" />
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required />
+
+        <label for="company">Company</label>
+        <input id="company" name="company" type="text" th:value="${company}" />
+
+        <label for="address">Address</label>
+        <input id="address" name="address" type="text" th:value="${address}" />
+
+        <label for="city">City</label>
+        <input id="city" name="city" type="text" th:value="${city}" />
+
+        <label for="state">State</label>
+        <input id="state" name="state" type="text" th:value="${state}" />
+
+        <label for="country">Country</label>
+        <input id="country" name="country" type="text" th:value="${country}" />
+
+        <label for="postalCode">Postal Code</label>
+        <input id="postalCode" name="postalCode" type="text" th:value="${postalCode}" />
+
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="text" th:value="${phone}" />
+
+        <label for="fax">Fax</label>
+        <input id="fax" name="fax" type="text" th:value="${fax}" />
+
+        <div>
+            <button type="submit">Register</button>
+            <a th:href="@{/login}" style="margin-left:10px;">Back to login</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
