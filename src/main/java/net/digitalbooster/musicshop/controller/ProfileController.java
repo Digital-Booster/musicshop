@@ -81,8 +81,8 @@ public class ProfileController {
         // Validate email uniqueness: allow current value but prevent using someone else's email
         Customer existingCustomer = customerRepository.findByEmail(email);
         if (existingCustomer != null) {
-            Integer existingId = existingCustomer.getCustomerId();
-            Integer currentId = c.getCustomerId();
+            Integer existingId = existingCustomer.getId();
+            Integer currentId = c.getId();
             if (currentId == null || !existingId.equals(currentId)) {
                 model.addAttribute("error", "Email is already used by another account.");
                 // preserve submitted values

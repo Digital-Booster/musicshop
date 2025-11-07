@@ -54,11 +54,11 @@ public class Customer {
     private AppUser appUser;
 
     // Getters and Setters
-    public Integer getCustomerId() {
+    public Integer getId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setId(Integer customerId) {
         this.customerId = customerId;
     }
 

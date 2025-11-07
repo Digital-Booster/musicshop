@@ -61,6 +61,15 @@
                 </div>
             </form>
 
+            <div th:if="${error}" class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="bi bi-exclamation-circle me-2"></i>
+                <div th:text="${error}"></div>
+            </div>
+            <div th:if="${message}" class="alert alert-success d-flex align-items-center" role="alert">
+                <i class="bi bi-check-circle me-2"></i>
+                <div th:text="${message}"></div>
+            </div>
+
             <!-- Track List -->
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -93,7 +102,7 @@
                                 <span th:text="${track.genre != null ? track.genre.name : 'Unknown'}">Genre</span>
                             </td>
                             <td class="text-end" th:text="'$' + ${track.unitPrice}">0.00</td>
-                            <td class="text-end">
+                            <td class="text-end" sec:authorize="hasRole('USER')">
                                 <form th:action="@{/cart/add}" method="post">
                                     <input type="hidden" name="trackId" th:value="${track.trackId}" />
                                     <button type="submit" class="btn btn-sm btn-success">
