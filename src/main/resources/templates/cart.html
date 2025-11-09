@@ -37,6 +37,7 @@
                                 <th class="text-center">Quantity</th>
                                 <th class="text-end">Unit Price</th>
                                 <th class="text-end">Total</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,9 +54,26 @@
                                     <i class="bi bi-person me-2"></i>
                                     <span th:text="${item.track.album.artist.name}">Artist Name</span>
                                 </td>
-                                <td class="text-center" th:text="${item.quantity}">1</td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <form th:action="@{/cart/item/{id}/dec(id=${item.cartLineId})}" method="post">
+                                            <button type="submit" class="btn btn-outline-secondary">-</button>
+                                        </form>
+                                        <span class="btn btn-outline-secondary" th:text="${item.quantity}">1</span>
+                                        <form th:action="@{/cart/item/{id}/inc(id=${item.cartLineId})}" method="post">
+                                            <button type="submit" class="btn btn-outline-secondary">+</button>
+                                        </form>
+                                    </div>
+                                </td>
                                 <td class="text-end" th:text="'$' + ${item.unitPrice}">0.00</td>
                                 <td class="text-end" th:text="'$' + ${item.unitPrice.multiply(item.quantity)}">0.00</td>
+                                <td class="text-end">
+                                    <form th:action="@{/cart/item/{id}/del(id=${item.cartLineId})}" method="post">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

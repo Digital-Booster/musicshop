@@ -13,7 +13,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
 	@Query("select distinct i from Invoice i left join fetch i.invoiceItems ii left join fetch ii.track t where i.customer.customerId = :customerId")
 	List<Invoice> findByCustomerIdWithItems(@Param("customerId") Integer customerId);
 
-	List<Invoice> findByCustomerCustomerId(Integer customerId);
+	List<Invoice> findByCustomerId(Integer customerId);
 
 	// Native query fallback: fetch invoices rows for a customer using SQL
 	@Query(value = "SELECT * FROM invoices WHERE CustomerId = :customerId", nativeQuery = true)

@@ -47,7 +47,7 @@ public class InvoiceController {
         }
 
         // First load invoices using native query to avoid JPQL fetch join converter issues
-        List<Invoice> invoices = invoiceRepository.findByCustomerIdNative(customer.getId());
+        List<Invoice> invoices = invoiceRepository.findByCustomerId(customer.getId());
 
         // For each invoice load its items with track eagerly
         for (Invoice inv : invoices) {

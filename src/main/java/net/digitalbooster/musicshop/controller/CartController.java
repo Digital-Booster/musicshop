@@ -15,12 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.lang.NonNull;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -60,7 +61,7 @@ public class CartController {
     }
 
     @PostMapping("/cart/add")
-    public String addToCart(@RequestParam Integer trackId, Principal principal, RedirectAttributes redirectAttributes) {
+    public String addToCart(@RequestParam @NonNull Integer trackId, Principal principal, RedirectAttributes redirectAttributes) {
         if (principal == null) {
             return "redirect:/login";
         }
@@ -109,5 +110,35 @@ public class CartController {
         }
 
         return "redirect:/catalog";
+    }
+
+    @PostMapping("/cart/item/{id}/del")
+    public String deleteCartItem(@PathVariable("id") @NonNull Integer cartLineId) {
+        cartItemRepository.deleteById(cartLineId);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/cart/item/{id}/inc")
+    public String increaseCartItem(@PathVariable("id") @NonNull Integer cartLineId) {
+        CartItem item = cartItemRepository.findById(cartLineId).orElse(null);
+        if (item != null) {
+            item.setQuantity(item.getQuantity() + 1);
+            cartItemRepository.save(item);
+        }
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/cart/item/{id}/dec")
+    public String decreaseCartItem(@PathVariable("id") @NonNull Integer cartLineId) {
+        CartItem item = cartItemRepository.findById(cartLineId).orElse(null);
+        if (item != null) {
+            if (item.getQuantity() > 1) {
+                item.setQuantity(item.getQuantity() - 1);
+                cartItemRepository.save(item);
+            } else {
+                cartItemRepository.deleteById(cartLineId);
+            }
+        }
+        return "redirect:/cart";
     }
 }
