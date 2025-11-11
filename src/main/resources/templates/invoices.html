@@ -37,6 +37,11 @@
                 <div th:text="${error}"></div>
             </div>
 
+            <div th:if="${message}" class="alert alert-success d-flex align-items-center" role="alert">
+                <i class="bi bi-check-circle me-2"></i>
+                <div th:text="${message}"></div>
+            </div>
+
             <div th:if="${invoices != null and #lists.isEmpty(invoices) == false}">
                 <div class="accordion" id="invoiceAccordion">
                     <div class="accordion-item" th:each="inv, itemStat : ${invoices}">

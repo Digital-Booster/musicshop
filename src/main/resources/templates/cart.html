@@ -81,9 +81,11 @@
 
                 <div class="d-flex justify-content-end align-items-center mt-4">
                     <h3 class="me-4">Total: <span class="text-primary" th:text="'$' + ${cart.total}">$0.00</span></h3>
-                    <button class="btn btn-lg btn-success">
-                        <i class="bi bi-check-circle me-2"></i>Confirm Order
-                    </button>
+                    <form th:action="@{/checkout/confirm}" method="post">
+                        <button type="submit" class="btn btn-lg btn-success">
+                            <i class="bi bi-check-circle me-2"></i>Confirm Order
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
