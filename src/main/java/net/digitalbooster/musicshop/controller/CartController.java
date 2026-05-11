@@ -22,6 +22,7 @@ import org.springframework.lang.NonNull;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @Controller
@@ -76,7 +77,7 @@ public class CartController {
             Cart cart = cartRepository.findByCustomerId(customer.getId()).orElseGet(() -> {
                 Cart newCart = new Cart();
                 newCart.setCustomer(customer);
-                newCart.setCartDate(LocalDateTime.now());
+                newCart.setCartDate(OffsetDateTime.now());
                 newCart.setTotal(BigDecimal.ZERO);
                 return cartRepository.save(newCart);
             });

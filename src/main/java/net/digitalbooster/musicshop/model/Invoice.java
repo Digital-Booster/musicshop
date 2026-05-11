@@ -2,6 +2,7 @@ package net.digitalbooster.musicshop.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Set;
 import java.math.BigDecimal;
 import net.digitalbooster.musicshop.config.SqliteDateTimeConverter;
@@ -18,9 +19,9 @@ public class Invoice {
     @JoinColumn(name = "CustomerId", nullable = false)
     private Customer customer;
 
-    @Column(name = "InvoiceDate", nullable = false, columnDefinition = "DATETIME")
-    @Convert(converter = SqliteDateTimeConverter.class)
-    private LocalDateTime invoiceDate;
+    @Column(name = "InvoiceDate", nullable = false)
+    // @Convert(converter = SqliteDateTimeConverter.class)
+    private OffsetDateTime invoiceDate;
 
     @Column(name = "BillingAddress", length = 70)
     private String billingAddress;
@@ -60,11 +61,11 @@ public class Invoice {
         this.customer = customer;
     }
 
-    public LocalDateTime getInvoiceDate() {
+    public OffsetDateTime getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(LocalDateTime invoiceDate) {
+    public void setInvoiceDate(OffsetDateTime invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 

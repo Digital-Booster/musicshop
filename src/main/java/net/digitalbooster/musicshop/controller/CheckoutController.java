@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Controller
 public class CheckoutController {
@@ -59,7 +60,7 @@ public class CheckoutController {
         // Create a new Invoice
         Invoice invoice = new Invoice();
         invoice.setCustomer(customer);
-        invoice.setInvoiceDate(LocalDateTime.now());
+        invoice.setInvoiceDate(OffsetDateTime.now());
         invoice.setBillingAddress(customer.getAddress());
         invoice.setBillingCity(customer.getCity());
         invoice.setBillingState(customer.getState());
