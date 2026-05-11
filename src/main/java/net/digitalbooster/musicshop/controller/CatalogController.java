@@ -33,7 +33,7 @@ public class CatalogController {
 
     @GetMapping("/catalog")
     public String catalog(
-            @RequestParam(required = false) Long genreId,
+            @RequestParam(required = false) Integer genreId,
             @RequestParam(required = false) Integer artistId,
             @RequestParam(required = false) Integer albumId,
             @RequestParam(required = false) String trackName,

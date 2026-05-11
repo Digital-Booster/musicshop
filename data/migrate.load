@@ -1,0 +1,16 @@
+LOAD DATABASE
+     FROM '/data/MusicShopSQLite.db'
+     INTO postgresql://postgres:postgres@localhost:5432/musicshop
+
+ WITH include drop, create tables, create indexes, reset sequences,
+      workers = 8, concurrency = 1
+
+  SET maintenance_work_mem to '128MB', 
+      work_mem to '12MB'
+
+ CAST type datetime to timestamptz,
+      type date to date
+
+ BEFORE LOAD DO
+   $$ drop schema if exists public cascade; $$,
+   $$ create schema public; $$;

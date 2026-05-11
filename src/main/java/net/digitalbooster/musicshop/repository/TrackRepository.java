@@ -18,7 +18,7 @@ public interface TrackRepository extends JpaRepository<Track, Integer> {
            "AND (:albumId IS NULL OR al.id = :albumId) " +
            "AND (:trackName IS NULL OR t.name LIKE %:trackName%)")
     List<Track> findWithFilters(
-        @Param("genreId") Long genreId,
+        @Param("genreId") Integer genreId,
         @Param("artistId") Integer artistId,
         @Param("albumId") Integer albumId,
         @Param("trackName") String trackName

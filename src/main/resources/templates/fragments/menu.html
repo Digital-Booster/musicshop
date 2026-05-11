@@ -7,7 +7,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" th:href="@{/}">
-                <i class="bi bi-music-note-beamed me-2"></i>
+                <i class="bi bi-music-note-beamed me-3"></i>
                 Music Shop
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -17,8 +17,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link" th:href="@{/}">
-                            <i class="bi bi-house me-1"></i>Home
+                        <a class="nav-link" th:href="@{/catalog}">
+                            <i class="bi bi-music-note-list me-2"></i>Catalog
                         </a>
                     </li>
                     <li class="nav-item" sec:authorize="hasRole('USER')">
