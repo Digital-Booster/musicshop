@@ -17,7 +17,7 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
     ./mvnw package -DskipTests 
 
-FROM eclipse-temurin:21  AS final
+FROM eclipse-temurin:21-jre-jammy AS final
 COPY --from=package build/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"]

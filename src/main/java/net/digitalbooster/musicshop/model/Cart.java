@@ -1,12 +1,9 @@
 package net.digitalbooster.musicshop.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Set;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import net.digitalbooster.musicshop.config.SqliteDateTimeConverter;
 
 @Entity
 @Table(name = "cart")
