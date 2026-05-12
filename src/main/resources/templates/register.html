@@ -65,6 +65,12 @@
                     <label for="password">Password</label>
                     <div class="invalid-feedback">Please provide a password (minimum 8 characters).</div>
                 </div>
+                <div class="form-floating mt-3">
+                    <input id="confirmPassword" name="confirmPassword" type="password" class="form-control" 
+                           placeholder="Confirm Password" required />
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="invalid-feedback" id="confirmPasswordInvalidFeedback">Passwords do not match.</div>
+                </div>
                 <!-- Password strength meter (client-only) -->
                 <div class="mt-2">
                     <div class="progress" style="height: 8px;">
@@ -177,9 +183,42 @@
             var pwd = document.getElementById('password')
             var bar = document.getElementById('passwordStrengthBar')
             var text = document.getElementById('passwordStrengthText')
+            var confirmPwd = document.getElementById('confirmPassword')
+            var confirmPwdFeedback = document.getElementById('confirmPasswordInvalidFeedback')
 
-            if (pwd && bar && text) {
+            if (pwd && confirmPwd && bar && text) {
+                // Add an event listener to the form to validate on submit
+                forms.forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (pwd.value !== confirmPwd.value) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                            confirmPwd.classList.add('is-invalid')
+                        } else {
+                            confirmPwd.classList.remove('is-invalid')
+                        }
+                    }, false)
+                })
+
+                // Add event listener to confirmPassword for real-time feedback
+                confirmPwd.addEventListener('input', function () {
+                    if (pwd.value !== confirmPwd.value) {
+                        confirmPwd.classList.add('is-invalid')
+                    } else {
+                        confirmPwd.classList.remove('is-invalid')
+                    }
+                })
+
+                // Add event listener to password for real-time feedback when confirmPassword is also filled
                 pwd.addEventListener('input', function () {
+                    if (confirmPwd.value !== '') {
+                        if (pwd.value !== confirmPwd.value) {
+                            confirmPwd.classList.add('is-invalid')
+                        } else {
+                            confirmPwd.classList.remove('is-invalid')
+                        }
+                    }
+                    // Password strength meter logic remains the same
                     var val = pwd.value || ''
                     var score = 0
 

@@ -1,4 +1,152 @@
-Account Admin/BlackFriday
+# Musicshop: Spring Boot E-commerce Prototype
 
-docker run --rm -v $(pwd):/data --network host dimitri/pgloader:latest \
-  pgloader data/MusicShopSQLite.db postgresql://postgres:postgres@localhost:5432/musicshop
+Musicshop is a prototype e-commerce application built with Spring Boot, leveraging the popular Chinook database. The primary objective of this project is to provide a functional web application for demonstrating and testing database migration processes, specifically focusing on migrating data from SQLite to PostgreSQL.
+
+## Features
+
+*   **Product Catalog:** Browse music tracks, albums, and artists.
+*   **Shopping Cart:** Add, update, and remove items from the cart.
+*   **User Registration & Authentication:** Secure user accounts with role-based access (USER, ADMIN).
+*   **Checkout Process:** Convert cart contents into invoices.
+*   **Invoice Management:** View customer invoices.
+*   **Admin Panel:**
+    *   Manage users (view, edit, delete).
+    *   View customer invoices.
+*   **Database Migration Demonstration:** Configurable to use either SQLite or PostgreSQL, showcasing a migration path.
+
+## Technologies Used
+
+*   **Backend:** Spring Boot, Spring Security, Spring Data JPA
+*   **Database:** PostgreSQL, SQLite (for migration demonstration)
+*   **ORM:** Hibernate
+*   **Templating:** Thymeleaf
+*   **Build Tool:** Maven
+*   **Containerization:** Docker, Docker Compose
+*   **Frontend:** Bootstrap 5 (for responsive UI)
+*   **Database Migration Tool:** PgLoader (demonstrated via `migrate.sh` script)
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+*   Java Development Kit (JDK) 21 or newer
+*   Apache Maven 3.x
+*   Docker and Docker Compose
+*   Git
+
+### Installation
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/your-username/musicshop.git
+    cd musicshop
+    ```
+
+2.  **Build the Spring Boot application:**
+
+    ```bash
+    ./mvnw clean install
+    ```
+
+### Running the Application
+
+The application can be run using Docker Compose, which sets up both the Spring Boot application and a PostgreSQL database.
+
+#### Using PostgreSQL (Default)
+
+To run the application with PostgreSQL (the default configuration in `compose.yml`):
+
+```bash
+docker compose up --build
+```
+
+The application will be accessible at `http://localhost:8080`.
+
+#### Using SQLite
+
+To switch to SQLite, modify the `compose.yml` file by changing the `SPRING_PROFILES_ACTIVE` environment variable for the `web` service:
+
+```yaml
+services:
+  web:
+    # ...
+    environment:
+      - SPRING_PROFILES_ACTIVE=sqlite # Change this line to activate the sqlite profile
+```
+
+Then, rebuild and run the Docker Compose services:
+
+```bash
+docker compose up --build
+```
+
+The application will now connect to an embedded SQLite database.
+
+### Database Migration (SQLite to PostgreSQL)
+
+This project includes a script to demonstrate migrating data from an SQLite database to PostgreSQL using PgLoader.
+
+1.  Ensure your `compose.yml` is configured for **PostgreSQL**.
+2.  If you have existing data in `data/MusicShopSQLite.db`, you can migrate it.
+3.  Run the migration script:
+
+    ```bash
+    ./data/migrate.sh
+    ```
+
+    This command uses `pgloader` within a Docker container to transfer data from `/data/MusicShopSQLite.db` (which would be mounted from your local `data` directory) to the PostgreSQL database running in the `db` service.
+
+    **Note:** The `migrate.sh` script assumes an SQLite database file named `MusicShopSQLite.db` exists in the `data/` directory. If you have a different SQLite database file, adjust the script accordingly.
+
+## Demo Account
+
+You can log in with the following administrator credentials:
+
+*   **Username:** `Admin`
+*   **Password:** `BlackFriday`
+
+## Project Structure
+
+```
+.
+├── compose.yml               # Docker Compose configuration for services (web app, postgres)
+├── Dockerfile                # Dockerfile for building the Spring Boot application
+├── mvnw                      # Maven Wrapper script (for Unix-like systems)
+├── mvnw.cmd                  # Maven Wrapper script (for Windows)
+├── pom.xml                   # Maven project object model file
+├── README.md                 # Project README file
+├── data/
+│   ├── migrate.load          # PgLoader script for SQLite to PostgreSQL migration
+│   └── migrate.sh            # Shell script to execute PgLoader
+└── src/
+    ├── main/
+    │   ├── java/             # Java source code
+    │   │   └── net/digitalbooster/musicshop/
+    │   │       ├── MusicshopApplication.java   # Main Spring Boot application class
+    │   │       ├── config/           # Spring configuration classes (JPA, Security)
+    │   │       ├── controller/       # Spring MVC controllers (Admin, Cart, Catalog, Checkout, etc.)
+    │   │       ├── model/            # JPA entities (Album, Artist, Cart, Customer, Invoice, Track, User)
+    │   │       ├── repository/       # Spring Data JPA repositories
+    │   │       └── service/          # Business logic services
+    │   └── resources/        # Application resources
+    │       ├── application-postgres.properties # PostgreSQL specific properties
+    │       ├── application-sqlite.properties   # SQLite specific properties
+    │       ├── application.properties          # Default application properties
+    │       ├── static/               # Static web resources (CSS, JS, images)
+    │       │   └── css/site.css      # Custom CSS
+    │       └── templates/            # Thymeleaf HTML templates
+    │           └── fragments/menu.html # Reusable menu fragment
+    └── test/                 # Test source code
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to open issues or submit pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the `LICENSE` file (if applicable) for details.
+

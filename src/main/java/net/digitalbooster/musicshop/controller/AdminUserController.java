@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.digitalbooster.musicshop.model.AppUser;
+import net.digitalbooster.musicshop.model.Cart;
 import net.digitalbooster.musicshop.model.Customer;
+import net.digitalbooster.musicshop.model.Invoice;
 import net.digitalbooster.musicshop.repository.AppUserRepository;
 import net.digitalbooster.musicshop.repository.CustomerRepository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -33,7 +36,8 @@ public class AdminUserController {
             String ql = q.toLowerCase();
             users = users.stream().filter(u -> {
                 Customer c = u.getCustomer();
-                if (c == null) return false;
+                if (c == null)
+                    return false;
                 return (c.getFirstName() != null && c.getFirstName().toLowerCase().contains(ql))
                         || (c.getLastName() != null && c.getLastName().toLowerCase().contains(ql))
                         || (c.getEmail() != null && c.getEmail().toLowerCase().contains(ql))
@@ -60,26 +64,27 @@ public class AdminUserController {
 
     @PostMapping("/admin/users/{id}")
     public String saveUser(@PathVariable Integer id,
-                           @RequestParam(required = false) String firstName,
-                           @RequestParam(required = false) String lastName,
-                           @RequestParam(required = false) String email,
-                           @RequestParam(required = false) String company,
-                           @RequestParam(required = false) String address,
-                           @RequestParam(required = false) String city,
-                           @RequestParam(required = false) String state,
-                           @RequestParam(required = false) String country,
-                           @RequestParam(required = false) String postalCode,
-                           @RequestParam(required = false) String phone,
-                           @RequestParam(required = false) String fax,
-                           @RequestParam(required = false) String role,
-                           RedirectAttributes redirectAttributes) {
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String company,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String country,
+            @RequestParam(required = false) String postalCode,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) String fax,
+            @RequestParam(required = false) String role,
+            RedirectAttributes redirectAttributes) {
         AppUser user = appUserRepository.findById(id).orElse(null);
         if (user == null) {
             redirectAttributes.addFlashAttribute("error", "User not found");
             return "redirect:/admin/users";
         }
         Customer c = user.getCustomer();
-        if (c == null) c = new Customer();
+        if (c == null)
+            c = new Customer();
         c.setFirstName(firstName);
         c.setLastName(lastName);
         c.setEmail(email);
@@ -93,7 +98,8 @@ public class AdminUserController {
         c.setFax(fax);
         customerRepository.save(c);
         user.setCustomer(c);
-        if (role != null && !role.isBlank()) user.setRole(role);
+        if (role != null && !role.isBlank())
+            user.setRole(role);
         appUserRepository.save(user);
         redirectAttributes.addFlashAttribute("message", "User updated");
         return "redirect:/admin/users/" + id;
@@ -108,25 +114,38 @@ public class AdminUserController {
         }
         Customer customer = user.getCustomer();
         if (customer != null) {
-            // Break bidirectional relationship
-            customer.setAppUser(null);
-            customerRepository.save(customer);
-            // Clear the reference in user
-            user.setCustomer(null);
-            appUserRepository.save(user);
-            // Now delete customer if no related records
-            try {
-                customerRepository.delete(customer);
-            } catch (Exception e) {
-                // If customer has related records, just leave it in DB
-                redirectAttributes.addFlashAttribute("message", "User deleted, but customer data retained due to related records");
-                appUserRepository.delete(user);
+            Set<Invoice> invs = customer.getInvoices();
+            Set<Cart> cart = customer.getCarts();
+            if (invs.isEmpty() && cart.isEmpty()) {
+                // Now delete customer if no related records
+                try {
+                    // Break bidirectional relationship
+                    customer.setAppUser(null);
+                    customerRepository.save(customer);
+                    // Clear the reference in user
+                    user.setCustomer(null);
+                    appUserRepository.save(user);
+
+                    customerRepository.delete(customer);
+                    // appUserRepository.delete(user);
+                } catch (Exception e) {
+                    // If customer has related records, just leave it in DB
+                    redirectAttributes.addFlashAttribute("error",
+                            "User NOT deleted, customer data retained due to related records");
+                    return "redirect:/admin/users";
+                }
+                
+            } else {
+                redirectAttributes.addFlashAttribute("error",
+                        "User NOT deleted, customer data retained due to related records");
                 return "redirect:/admin/users";
             }
         }
+       
         // Finally delete the user
         appUserRepository.delete(user);
         redirectAttributes.addFlashAttribute("message", "User and associated customer data deleted successfully");
         return "redirect:/admin/users";
+
     }
 }
