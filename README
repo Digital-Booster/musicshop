@@ -55,7 +55,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 The application can be run using Docker Compose, which sets up both the Spring Boot application and a PostgreSQL database.
 
-#### Using PostgreSQL (Default)
+#### Using PostgreSQL (Default is local SQLite database)
 
 To run the application with PostgreSQL (the default configuration in `compose.yml`):
 
