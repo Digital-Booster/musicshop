@@ -1,6 +1,6 @@
 LOAD DATABASE
      FROM '/data/MusicShopSQLite.db'
-     INTO postgresql://postgres:postgres@localhost:5432/musicshop
+     INTO postgresql://postgres:postgres@localhost:5432/musicshop?sslmode=prefer
 
  WITH include drop, create tables, create indexes, reset sequences,
       workers = 8, concurrency = 1
