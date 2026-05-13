@@ -9,7 +9,7 @@ services:
     volumes:
       - ./data:/data
     environment:
-      - SPRING_PROFILES_ACTIVE=postgres # Ghange this line to activate the right profile: postgres/sqlite
+      - SPRING_PROFILES_ACTIVE=sqlite # Ghange this line to activate the right profile: postgres/sqlite
 
   db:
     image: postgres:18
