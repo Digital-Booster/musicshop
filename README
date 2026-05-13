@@ -74,7 +74,7 @@ services:
   web:
     # ...
     environment:
-      - SPRING_PROFILES_ACTIVE=sqlite # Change this line to activate the sqlite profile
+      - SPRING_PROFILES_ACTIVE=sqlite # Change this line to activate the right profile sqlite/postgres
 ```
 
 Then, rebuild and run the Docker Compose services:
