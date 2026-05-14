@@ -1,5 +1,6 @@
 package net.digitalbooster.musicshop.repository;
 
+import net.digitalbooster.musicshop.model.Invoice;
 import net.digitalbooster.musicshop.model.InvoiceItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,8 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Intege
 
 	@Query("select ii from InvoiceItem ii left join fetch ii.track where ii.invoice.invoiceId = :invoiceId")
 	List<InvoiceItem> findByInvoiceIdWithTrack(@Param("invoiceId") Integer invoiceId);
+
+	List<InvoiceItem> findByInvoice(Invoice invoice);
+
+    void deleteByInvoice(Invoice invoice);
 }

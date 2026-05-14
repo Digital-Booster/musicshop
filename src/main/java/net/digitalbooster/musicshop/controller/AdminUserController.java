@@ -2,6 +2,7 @@ package net.digitalbooster.musicshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,6 +64,7 @@ public class AdminUserController {
     }
 
     @PostMapping("/admin/users/{id}")
+    @Transactional
     public String saveUser(@PathVariable Integer id,
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String lastName,
